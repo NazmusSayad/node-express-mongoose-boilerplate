@@ -1,12 +1,7 @@
-const mongoose = require('mongoose')
-const app = require('./app')
+console.clear()
 
-const port = process.env.PORT || 8080
+process.env.PORT ||= 8080
+require('dotenv').config()
 
-app.listen(port, () => {
-  console.log(`>>> App running on port "${port}"...`)
-})
-
-mongoose
-  .connect(process.env.DB)
-  .then(() => console.log('>>> MongoDB connected successfully...'))
+require('./db')
+require('./server')
