@@ -1,5 +1,5 @@
 {
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon .",
     "serve": "node ."
