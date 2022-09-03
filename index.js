@@ -1,7 +1,2 @@
-console.clear()
-
-process.env.PORT ||= 8080
-require('dotenv').config()
-
-require('./src/db')
+process.env.NODE_ENV || (process.env.NODE_ENV = 'production')
 require('./src/server')

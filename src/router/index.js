@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-router.route('/').get((req, res) => {})
+// router.use('/v1', apiRoute)
 
 module.exports = router
