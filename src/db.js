@@ -7,5 +7,5 @@ mongoose
   })
   .catch(() => {
     console.log('!!! MongoDB connection failed...')
-    process.exit()
+    // process.exit()
   })
