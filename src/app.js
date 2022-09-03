@@ -9,8 +9,8 @@ app.use(cors())
 app.use(express.json())
 
 app.use((req, res, next) => {
-  req.success = function (statusCode, data) {
-    this.res.status(statusCode).json({
+  res.success = function (statusCode = 200, data) {
+    this.status(statusCode).json({
       status: 'success',
       data,
     })
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 app.use(`/v1/api/`, router)
 
 app.all('*', (req, res, next) => {
-  next(new AppError('Not found!', 404))
+  next(new AppError('Not found!'))
 })
 
 app.use(errorController)

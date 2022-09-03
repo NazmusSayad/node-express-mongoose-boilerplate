@@ -20,19 +20,19 @@ const handleObjectParameterError = err => {
 
 module.exports = err => {
   if (err?.code === 11000) {
-    return new AppError(handleDuplicateError(err), 404)
+    return new AppError(handleDuplicateError(err))
   }
 
   if (err.name === 'ObjectParameterError') {
-    return new AppError(handleObjectParameterError(err), 404)
+    return new AppError(handleObjectParameterError(err))
   }
 
   if (err.name === 'CastError') {
-    return new AppError(handleCastError(err), 404)
+    return new AppError(handleCastError(err))
   }
 
   if (err.name === 'ValidationError') {
-    return new AppError(handleValidationError(err), 404)
+    return new AppError(handleValidationError(err))
   }
 
   console.error('!!!', err)
