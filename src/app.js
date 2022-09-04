@@ -8,7 +8,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use(response.addSuccessMethod)
-app.use(router)
+app.use('/v1', router)
 app.all('*', response.notFound)
 app.use(response.errorHandler)
 

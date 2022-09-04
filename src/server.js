@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
+global.ReqError = require('./core/req-error')
 const app = require('./app')
 
-process.env.PORT ||= 8080
+process.env.PORT ||= 1000
 app.listen(process.env.PORT, () => {
   console.log(`>>> App running on port "${process.env.PORT}"...`)
 })

@@ -1,26 +1,8 @@
-const AppError = require('./app-error')
-const makeAppError = require('./make-app-error')
-
-const respondError =
-  process.env.NODE_ENV === 'development'
-    ? (err, res) => {
-        res.status(err.statusCode).json({
-          status: err.statusCode < 500 ? 'fail' : 'error',
-          message: err.message,
-          error: err,
-          error_stack: err.stack,
-        })
-      }
-    : (err, res) => {
-        res.status(err.statusCode).json({
-          status: err.statusCode < 500 ? 'fail' : 'error',
-          message: err.message,
-        })
-      }
+const makeAppError = require('./get-error-info')
 
 exports.addSuccessMethod = (req, res, next) => {
-  res.success = function (data, code = 200) {
-    this.status(code).json({
+  res.success = function (data, statusCode = 200) {
+    this.status(statusCode).json({
       status: 'success',
       data,
     })
@@ -29,10 +11,28 @@ exports.addSuccessMethod = (req, res, next) => {
 }
 
 exports.notFound = (req, res, next) => {
-  next(new AppError(`Oops, looks like you're lost in space!`))
+  next(new ReqError(`Oops, looks like you're lost in space!`))
 }
 
-exports.errorHandler = (err, req, res, next) => {
-  if (err.name !== 'AppError') err = makeAppError(err)
-  respondError(err, res)
+const respondErrorDev = (err, req, res, next) => {
+  const [message, code] = makeAppError(err)
+
+  res.status(code).json({
+    status: code < 500 ? 'fail' : 'error',
+    message: message,
+    error: err,
+    error_stack: err.stack,
+  })
 }
+
+const respondErrorProd = (err, req, res, next) => {
+  const [message, code] = makeAppError(err)
+
+  res.status(code).json({
+    status: code < 500 ? 'fail' : 'error',
+    message: message,
+  })
+}
+
+exports.errorHandler =
+  process.env.NODE_ENV === 'development' ? respondErrorDev : respondErrorProd
