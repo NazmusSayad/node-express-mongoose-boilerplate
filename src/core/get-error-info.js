@@ -1,5 +1,5 @@
 const handleDuplicateError = err => {
-  return `The given "${Object.keys(err?.keyValue)}" already exists`
+  return `The given \`${Object.keys(err?.keyValue)}\` already exists`
 }
 
 const handleValidationError = err => {
@@ -9,11 +9,11 @@ const handleValidationError = err => {
 }
 
 const handleCastError = err => {
-  return `Invalid input "${err?.path}"`
+  return `Invalid input \`${err?.path}\``
 }
 
 const handleObjectParameterError = err => {
-  return `Invalid input "${err.message.match(/(?<=got ).*$/gm)[0]}"`
+  return `Invalid input \`${err.message.match(/(?<=got ).*$/gm)[0]}\``
 }
 
 module.exports = err => {
@@ -23,6 +23,14 @@ module.exports = err => {
 
   if (err.code === 11000) {
     return [handleDuplicateError(err), 404]
+  }
+
+  if (err.name === 'JsonWebTokenError') {
+    return ['Invalid auth token', 401]
+  }
+  
+  if (err.name === 'TokenExpiredError') {
+    return ['Auth token has been expired', 401]
   }
 
   if (err.name === 'ObjectParameterError') {
@@ -37,6 +45,6 @@ module.exports = err => {
     return [handleValidationError(err), 404]
   }
 
-  console.error('!!!', err)
+  console.error('\x1b[31m%s\x1b[0m', err)
   return ['Something went very wrong!', 500]
 }
