@@ -3,6 +3,10 @@ const errorHandler = require('./error-handler')
 module.exports = err => {
   if (err.isOperational) return [err.message, err.statusCode]
 
+  if (err.type === 'entity.parse.failed') {
+    return ['Invalid data recieved', 400]
+  }
+
   if (err.code === 11000) {
     return [errorHandler.duplicateError(err), 404]
   }
