@@ -1,4 +1,4 @@
-const makeAppError = require('./get-error-info')
+const getErrorInfo = require('./get-error-info')
 
 exports.addSuccessMethod = (req, res, next) => {
   res.success = function (data, statusCode = 200) {
@@ -15,18 +15,18 @@ exports.notFound = (req, res, next) => {
 }
 
 const respondErrorDev = (err, req, res, next) => {
-  const [message, code] = makeAppError(err)
+  const [message, code] = getErrorInfo(err)
 
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
-    message: message,
+    message,
     error: err,
-    error_stack: err.stack,
+    stack: err.stack,
   })
 }
 
 const respondErrorProd = (err, req, res, next) => {
-  const [message, code] = makeAppError(err)
+  const [message, code] = getErrorInfo(err)
 
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
