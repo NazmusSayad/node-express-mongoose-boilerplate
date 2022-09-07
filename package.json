@@ -12,7 +12,11 @@
   "dependencies": {
     "cors": "latest",
     "dotenv": "latest",
+    "helmet": "latest",
     "express": "latest",
-    "mongoose": "latest"
+    "mongoose": "latest",
+    "xss-clean": "latest",
+    "express-rate-limit": "latest",
+    "express-mongo-sanitize": "latest"    
   }
 }
