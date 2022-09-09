@@ -19,6 +19,8 @@ mongoose
   })
   .catch(() => {
     console.error('\x1b[31m%s\x1b[0m', '!!! MongoDB connection failed...')
-    /* console.error('\x1b[31m%s\x1b[0m', '!!! Server stopping...')
-    process.exit() */
+    /*
+    console.error('\x1b[31m%s\x1b[0m', '!!! Server stopping...')
+    process.exit()
+    */
   })
