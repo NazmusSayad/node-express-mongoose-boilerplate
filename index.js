@@ -6,4 +6,4 @@ if (process.argv.at(-1) === '--NODE_ENV=development') {
 } else process.env.NODE_ENV ||= 'production'
 
 require('./src/server')
-process.env.NODE_ENV === 'development' && console.log('\x1b[0m')
+console.log('\x1b[0m')
