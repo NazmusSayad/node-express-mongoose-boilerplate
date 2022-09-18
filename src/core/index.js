@@ -20,15 +20,19 @@ exports.proConsole = {
   _bright: '\x1b[1m',
   _green: '\x1b[32m',
   _red: '\x1b[31m',
-  _log(init, logger) {
-    process.stdout.write([this._reset, ...init].join(''))
-    logger()
+  __reset() {
     process.stdout.write(this._reset)
   },
+  _generate() {
+    return this._reset.concat([...arguments].join(''), '%s')
+  },
+
   brightSuccess() {
-    this._log([this._bright, this._green], console.log.bind(this, ...arguments))
+    console.log(this._generate(this._bright, this._green), ...arguments)
+    this.__reset()
   },
   brightFail() {
-    this._log([this._bright, this._red], console.error.bind(this, ...arguments))
+    console.error(this._generate(this._bright, this._red), ...arguments)
+    this.__reset()
   },
 }
