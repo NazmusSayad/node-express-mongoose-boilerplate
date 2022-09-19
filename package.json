@@ -5,19 +5,17 @@
     "debug": "ndb npm start",
     "serve": "node ."
   },
-  "author": "",
-  "license": "ISC",
   "engines": {
     "node": ">=16.0.0"
   },
   "dependencies": {
     "cors": "latest",
+    "helmet": "latest",
     "dotenv": "latest",
     "express": "latest",
-    "express-mongo-sanitize": "latest",
-    "express-rate-limit": "latest",
-    "helmet": "latest",
     "mongoose": "latest",
-    "xss-clean": "latest"
+    "xss-clean": "latest",
+    "express-rate-limit": "latest",
+    "express-mongo-sanitize": "latest"
   }
 }

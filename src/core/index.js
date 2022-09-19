@@ -1,18 +1,32 @@
-class ReqError extends Error {
+exports.ReqError = class ReqError extends Error {
   constructor(message, statusCode = 404) {
     super(message)
-
-    this.isOperational = true
-    this.name = this.constructor.name
     this.statusCode = statusCode
     Error.captureStackTrace(this, this.constructor)
   }
+  name = 'ReqError'
+  isOperational = true
 }
 
-exports.ReqError = ReqError
+exports.catchSync = fn => (req, res, next) => {
+  try {
+    fn(req, res, next)
+  } catch (err) {
+    next(err)
+  }
+}
 
 exports.catchAsync = fn => (req, res, next) => {
   fn(req, res, next).catch(next)
+}
+
+exports.catchError = fn => async (req, res, next) => {
+  try {
+    const returnValue = fn(req, res, next)
+    if (returnValue instanceof Promise) await returnValue
+  } catch (err) {
+    next(err)
+  }
 }
 
 exports.proConsole = {
@@ -24,15 +38,15 @@ exports.proConsole = {
     process.stdout.write(this._reset)
   },
   _generate() {
-    return this._reset.concat([...arguments].join(''), '%s')
+    return this._reset.concat([...arguments].join(''))
   },
 
-  brightSuccess() {
-    console.log(this._generate(this._bright, this._green), ...arguments)
+  brightSuccess(message) {
+    console.log(this._generate(this._bright, this._green, message))
     this.__reset()
   },
-  brightFail() {
-    console.error(this._generate(this._bright, this._red), ...arguments)
+  brightFail(message) {
+    console.error(this._generate(this._bright, this._red, message))
     this.__reset()
   },
 }

@@ -4,7 +4,6 @@ const xss = require('xss-clean')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')
-
 const response = require('./core/response')
 const router = require('./router')
 
@@ -15,20 +14,21 @@ const globalLimiter = rateLimit({
   message: {
     status: 'fail',
     message:
-      'Too many accounts created from this IP, please try again after an hour',
+      'Too many requests from this IP, please try again after a deep sleep',
   },
 })
 
-app.use(helmet())
 app.use(cors())
+app.use(helmet())
 app.use('*', globalLimiter)
-app.use(express.json({ limit: '12kb' }))
+app.use(express.json({ limit: '8kb' }))
 app.use(mongoSanitize())
 app.use(xss())
-app.use(response.addSuccessMethod)
+
+app.response.success = response.success
 
 app.use('/v1', router)
-app.all('*', response.notFound)
+app.use('*', response.notFound)
 app.use(response.errorHandler)
 
 module.exports = app
