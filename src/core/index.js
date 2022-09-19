@@ -8,6 +8,15 @@ exports.ReqError = class ReqError extends Error {
   isOperational = true
 }
 
+exports.catchError = fn => async (req, res, next) => {
+  try {
+    const returnValue = fn(req, res, next)
+    if (returnValue instanceof Promise) await returnValue
+  } catch (err) {
+    next(err)
+  }
+}
+
 exports.catchSync = fn => (req, res, next) => {
   try {
     fn(req, res, next)
@@ -18,15 +27,6 @@ exports.catchSync = fn => (req, res, next) => {
 
 exports.catchAsync = fn => (req, res, next) => {
   fn(req, res, next).catch(next)
-}
-
-exports.catchError = fn => async (req, res, next) => {
-  try {
-    const returnValue = fn(req, res, next)
-    if (returnValue instanceof Promise) await returnValue
-  } catch (err) {
-    next(err)
-  }
 }
 
 exports.proConsole = {

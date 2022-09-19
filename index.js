@@ -18,8 +18,6 @@ process.env.PORT ||= 1000
 
 const coreUtils = require('./src/core')
 global.ReqError = coreUtils.ReqError
-global.catchSync = coreUtils.catchSync
-global.catchAsync = coreUtils.catchAsync
 global.catchError = coreUtils.catchError
 
 const server = require('./src/server')
