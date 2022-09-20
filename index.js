@@ -1,10 +1,13 @@
+const colors = require('colors/safe')
 console.log(
-  '\x1b[0m---',
-  new Date().toLocaleString('en-US', {
-    dateStyle: 'full',
-    timeStyle: 'long',
-    hour12: true,
-  })
+  colors.reset(
+    '---',
+    new Date().toLocaleString('en-US', {
+      dateStyle: 'full',
+      timeStyle: 'long',
+      hour12: true,
+    })
+  )
 )
 
 if (process.argv.at(-1) === '--NODE_ENV=development') {

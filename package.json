@@ -9,14 +9,14 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "colors": "^1.4.0",
     "cors": "latest",
-    "dotenv": "latest",
-    "express": "latest",
-    "express-mongo-sanitize": "latest",
-    "express-rate-limit": "latest",
     "helmet": "latest",
+    "dotenv": "latest",
+    "colors": "latest",
+    "express": "latest",
     "mongoose": "latest",
-    "xss-clean": "latest"
+    "xss-clean": "latest",
+    "express-rate-limit": "latest",
+    "express-mongo-sanitize": "latest"
   }
 }
