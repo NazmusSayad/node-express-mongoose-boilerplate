@@ -1,17 +1,54 @@
-exports.duplicateError = err => {
-  return `The given \`${Object.keys(err?.keyValue)}\` already exists`
+const colors = require('colors/safe')
+
+const errorHandler = {
+  duplicateError: err => {
+    return `The given \`${Object.keys(err?.keyValue)}\` already exists`
+  },
+
+  validationError: err => {
+    return Object.values(err?.errors)
+      ?.map(error => error?.message)
+      .join('.\n')
+  },
+
+  castError: err => {
+    return `Invalid input \`${err?.path}\``
+  },
+
+  objParamError: err => {
+    return `Invalid input \`${err.message.match(/(?<=got ).*$/gm)[0]}\``
+  },
 }
 
-exports.validationError = err => {
-  return Object.values(err?.errors)
-    ?.map(error => error?.message)
-    .join('.\n')
-}
+module.exports = err => {
+  if (err.isOperational) return [err.message, err.statusCode || 400]
 
-exports.castError = err => {
-  return `Invalid input \`${err?.path}\``
-}
+  if (err.type === 'entity.parse.failed') {
+    return ['Invalid data recieved', 400]
+  }
 
-exports.objParamError = err => {
-  return `Invalid input \`${err.message.match(/(?<=got ).*$/gm)[0]}\``
+  if (err.code === 11000) {
+    return [errorHandler.duplicateError(err), 400]
+  }
+
+  switch (err.name) {
+    case 'JsonWebTokenError':
+      return ['Invalid auth token', 401]
+
+    case 'TokenExpiredError':
+      return ['Auth token has been expired', 401]
+
+    case 'ObjectParameterError':
+      return [errorHandler.objParamError(err), 400]
+
+    case 'CastError':
+      return [errorHandler.castError(err), 400]
+
+    case 'ValidationError':
+      return [errorHandler.validationError(err), 400]
+
+    default:
+      console.warn(colors.red(err))
+      return ['Something went very wrong!', 500]
+  }
 }

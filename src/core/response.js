@@ -1,8 +1,7 @@
-const getErrorInfo = require('./get-error-info')
+const errorHandler = require('./error-handler')
 
-const respondErrorDev = (err, req, res, next) => {
-  const [message, code] = getErrorInfo(err)
-
+const respondErrorDevMode = (err, req, res, next) => {
+  const [message, code] = errorHandler(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
@@ -11,9 +10,8 @@ const respondErrorDev = (err, req, res, next) => {
   })
 }
 
-const respondErrorProd = (err, req, res, next) => {
-  const [message, code] = getErrorInfo(err)
-
+const respondErrorProdMode = (err, req, res, next) => {
+  const [message, code] = errorHandler(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
@@ -21,7 +19,9 @@ const respondErrorProd = (err, req, res, next) => {
 }
 
 exports.errorHandler =
-  process.env.NODE_ENV === 'development' ? respondErrorDev : respondErrorProd
+  process.env.NODE_ENV === 'development'
+    ? respondErrorDevMode
+    : respondErrorProdMode
 
 exports.notFound = (req, res, next) => {
   next(new ReqError(`Oops, looks like you're lost in space!`))

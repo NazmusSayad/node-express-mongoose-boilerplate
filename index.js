@@ -10,14 +10,10 @@ console.log(
 if (process.argv.at(-1) === '--NODE_ENV=development') {
   console.clear()
   require('dotenv').config()
-
   process.env.NODE_ENV = 'development'
 } else process.env.NODE_ENV ||= 'production'
 
 process.env.PORT ||= 1000
 
-const coreUtils = require('./src/core')
-global.ReqError = coreUtils.ReqError
-global.catchError = coreUtils.catchError
-
-const server = require('./src/server')
+require('./src/core')
+require('./src/server')
