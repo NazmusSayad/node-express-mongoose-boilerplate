@@ -1,7 +1,7 @@
-const errorHandler = require('./error-handler')
+const errorManager = require('./error')
 
 const respondErrorDevMode = (err, req, res, next) => {
-  const [message, code] = errorHandler(err)
+  const [message, code] = errorManager(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
@@ -11,7 +11,7 @@ const respondErrorDevMode = (err, req, res, next) => {
 }
 
 const respondErrorProdMode = (err, req, res, next) => {
-  const [message, code] = errorHandler(err)
+  const [message, code] = errorManager(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
