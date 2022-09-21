@@ -1,4 +1,4 @@
-global.ReqErr = class ReqError extends Error {
+global.ReqError = class ReqError extends Error {
   static catch = fn => (req, res, next) => {
     try {
       const returnValue = fn(req, res, next)
@@ -30,8 +30,6 @@ global.ReqErr = class ReqError extends Error {
 
     throw new Error('I need Function or Object with Function')
   }
-
-  static test
 
   name = 'RequestError'
   isOperational = true
