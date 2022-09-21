@@ -28,7 +28,7 @@ exports.notFound = (req, res, next) => {
 }
 
 exports.success = function (data, code = 200) {
-  if (!(data instanceof Object)) {
+  if (data && !(data instanceof Object)) {
     throw new Error('DEV: Data should be an object')
   }
   this.status(code).json({
