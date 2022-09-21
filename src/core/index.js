@@ -1,7 +1,9 @@
 global.ReqError = class ReqError extends Error {
-  static #wrapperArgumentError = new Error('Wrapper needs at least 1 argument')
+  static #wrapperArgumentError = new Error(
+    'DEV: Wrapper needs at least 1 argument'
+  )
   static #wrapperInvalidError = new Error(
-    'Wrapper should only contain Function'
+    'DEV: Wrapper should only contain Function'
   )
 
   static wrapper() {
