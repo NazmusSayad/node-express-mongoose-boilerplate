@@ -6,9 +6,8 @@ const errorHandler = {
   },
 
   validationError: err => {
-    return Object.values(err?.errors)
-      ?.map(error => error?.message)
-      .join('.\n')
+    const messages = Object.values(err?.errors)?.map(error => error?.message)
+    return messages.length > 1 ? messages : messages[0]
   },
 
   castError: err => {
