@@ -16,7 +16,7 @@ if (process.argv.at(-1) === '--NODE_ENV=development') {
   process.env.NODE_ENV = 'development'
 } else process.env.NODE_ENV ||= 'production'
 
-process.env.PORT ||= 1000
+process.env.PORT ||= 8000
 
 require('./src/core')
 require('./src/server')
