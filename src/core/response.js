@@ -1,7 +1,7 @@
-const errorManager = require('./error')
+const errorHandler = require('./error-handler')
 
 const respondErrorDevMode = (err, req, res, next) => {
-  const [message, code] = errorManager(err)
+  const [message, code] = errorHandler(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
@@ -11,7 +11,7 @@ const respondErrorDevMode = (err, req, res, next) => {
 }
 
 const respondErrorProdMode = (err, req, res, next) => {
-  const [message, code] = errorManager(err)
+  const [message, code] = errorHandler(err)
   res.status(code).json({
     status: code < 500 ? 'fail' : 'error',
     message,
@@ -28,9 +28,6 @@ exports.notFound = (req, res, next) => {
 }
 
 exports.success = function (data, code = 200) {
-  if (data && !(data instanceof Object)) {
-    throw new Error('DEV: Data should be an object')
-  }
   this.status(code).json({
     status: 'success',
     data,

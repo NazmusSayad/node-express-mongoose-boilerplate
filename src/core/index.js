@@ -1,9 +1,9 @@
+const DevError = require('./dev-error')
+
 global.ReqError = class ReqError extends Error {
-  static #wrapperArgumentError = new Error(
-    'DEV: Catch needs at least 1 argument'
-  )
-  static #wrapperInvalidFnError = new Error(
-    'DEV: Catch should only contain Function'
+  static #wrapperArgumentError = new DevError('Catch needs at least 1 argument')
+  static #wrapperInvalidFnError = new DevError(
+    'Catch should only contain Function'
   )
 
   static catch() {
