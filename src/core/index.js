@@ -1,12 +1,12 @@
 global.ReqError = class ReqError extends Error {
   static #wrapperArgumentError = new Error(
-    'DEV: Wrapper needs at least 1 argument'
+    'DEV: Catch needs at least 1 argument'
   )
-  static #wrapperInvalidError = new Error(
-    'DEV: Wrapper should only contain Function'
+  static #wrapperInvalidFnError = new Error(
+    'DEV: Catch should only contain Function'
   )
 
-  static wrapper() {
+  static catch() {
     if (arguments.length === 0) throw this.#wrapperArgumentError
     return arguments.length === 1
       ? this.#wrapper(arguments[0])
@@ -30,12 +30,9 @@ global.ReqError = class ReqError extends Error {
     return this.#wrap(fn)
   }
 
-  static #wrap(fn) {
-    if (!(fn instanceof Function)) throw this.#wrapperInvalidError
-    return this.catch(fn)
-  }
+  static #wrap = fn => (req, res, next) => {
+    if (!(fn instanceof Function)) throw this.#wrapperInvalidFnError
 
-  static catch = fn => (req, res, next) => {
     try {
       const returnValue = fn(req, res, next)
       if (returnValue instanceof Promise) returnValue.catch(next)
