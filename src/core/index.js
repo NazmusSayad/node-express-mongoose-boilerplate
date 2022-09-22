@@ -1,10 +1,8 @@
 const DevError = require('./dev-error')
 
 global.ReqError = class ReqError extends Error {
+  static #wrapperInputError = new DevError('Catch can only use functions')
   static #wrapperArgumentError = new DevError('Catch needs at least 1 argument')
-  static #wrapperInvalidFnError = new DevError(
-    'Catch should only contain Function'
-  )
 
   static catch() {
     if (arguments.length === 0) throw this.#wrapperArgumentError
@@ -14,30 +12,27 @@ global.ReqError = class ReqError extends Error {
   }
 
   static #wrapper(input) {
-    if (input instanceof Array) {
-      return input.map(fn => this.#wrap(fn))
-    }
-
+    if (input instanceof Array) return input.map(fn => this.#catch(fn))
     if (input instanceof Object) {
       const newObj = {}
       for (let key in input) {
         const fn = input[key]
-        newObj[key] = this.#wrap(fn)
+        newObj[key] = this.#catch(fn)
       }
       return newObj
     }
-
-    return this.#wrap(fn)
+    return this.#catch(fn)
   }
 
-  static #wrap = fn => (req, res, next) => {
-    if (!(fn instanceof Function)) throw this.#wrapperInvalidFnError
-
-    try {
-      const returnValue = fn(req, res, next)
-      if (returnValue instanceof Promise) returnValue.catch(next)
-    } catch (err) {
-      next(err)
+  static #catch = fn => {
+    if (!(fn instanceof Function)) throw this.#wrapperInputError
+    return (req, res, next) => {
+      try {
+        const returnValue = fn(req, res, next)
+        if (returnValue instanceof Promise) returnValue.catch(next)
+      } catch (err) {
+        next(err)
+      }
     }
   }
 
