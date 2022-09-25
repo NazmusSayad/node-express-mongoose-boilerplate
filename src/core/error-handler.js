@@ -6,7 +6,12 @@ const errorHandler = {
   },
 
   validationError: err => {
-    const messages = Object.values(err?.errors)?.map(error => error?.message)
+    const messages = Object.values(err?.errors)?.map(error => {
+      if (error.name === 'CastError') {
+        return `Invalid input in \`${error.path}\``
+      }
+      return error?.message
+    })
     return messages.length > 1 ? messages : messages[0]
   },
 
