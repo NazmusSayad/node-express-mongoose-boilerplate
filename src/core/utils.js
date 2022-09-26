@@ -69,7 +69,7 @@ exports.getBody = function (fields) {
 
   const newObj = {}
   fields.forEach(feild => {
-    newObj[feild] = this[feild]
+    newObj[feild] = this.body[feild]
   })
   return newObj
 }
