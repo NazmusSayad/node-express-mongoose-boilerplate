@@ -12,19 +12,19 @@ global.ReqError = class ReqError extends Error {
   }
 
   static #wrapper(input) {
-    if (input instanceof Array) return input.map(fn => this.#catch(fn))
+    if (input instanceof Array) return input.map(fn => this.#wrap(fn))
     if (input instanceof Object) {
       const newObj = {}
       for (let key in input) {
         const fn = input[key]
-        newObj[key] = this.#catch(fn)
+        newObj[key] = this.#wrap(fn)
       }
       return newObj
     }
-    return this.#catch(fn)
+    return this.#wrap(fn)
   }
 
-  static #catch = fn => {
+  static #wrap = fn => {
     if (!(fn instanceof Function)) throw this.#wrapperInputError
     return (req, res, next) => {
       try {
@@ -38,7 +38,26 @@ global.ReqError = class ReqError extends Error {
 
   name = 'RequestError'
   isOperational = true
-  constructor(message, statusCode) {
+
+  constructor(messageOrArray, statusCodeOrUndefined) {
+    let message = messageOrArray
+    let statusCode = statusCodeOrUndefined
+
+    if (messageOrArray instanceof Array) {
+      message = messageOrArray[0]
+      statusCode = statusCodeOrUndefined ?? messageOrArray[1]
+    } else if (messageOrArray instanceof Object) {
+      message = messageOrArray.message
+      statusCode = statusCodeOrUndefined ?? messageOrArray.statusCode
+    }
+
+    if (typeof message !== 'string') {
+      throw new DevError('RequestError constructor gets invalid message')
+    }
+    if (statusCode != null && typeof statusCode !== 'number') {
+      throw new DevError('RequestError constructor gets invalid statusCode')
+    }
+
     super(message)
     this.statusCode = statusCode
     Error.captureStackTrace(this, this.constructor)

@@ -11,21 +11,22 @@ const app = express()
 const globalLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 1000,
-  message: {
-    status: 'fail',
-    message:
-      'Too many requests from this IP, please try again after a deep sleep',
-  },
+  message: response.getFail(
+    'Too many requests from this IP, please try again after a deep sleep',
+    429
+  ),
 })
 
 app.use(cors())
 app.use(helmet())
 app.use('*', globalLimiter)
+app.all('/ping', response.ping)
 app.use(express.json({ limit: '8kb' }))
 app.use(mongoSanitize())
 app.use(xss())
 
 app.response.success = response.success
+app.request.getBody = response.getBody
 
 app.use('/v1', router)
 app.use('*', response.notFound)

@@ -25,7 +25,7 @@ const errorHandler = {
 }
 
 module.exports = err => {
-  if (err.isOperational) return [err.message, err.statusCode || 400]
+  if (err.isOperational) return [err.message, err.statusCode ?? 400]
 
   if (err.type === 'entity.parse.failed') {
     return ['Invalid data recieved', 400]
