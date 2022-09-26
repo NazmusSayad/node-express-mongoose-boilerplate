@@ -1,30 +1,30 @@
 const DevError = require('./dev-error')
 
 global.ReqError = class ReqError extends Error {
+  static #catchArgumentError = new DevError('Catch needs at least 1 argument')
   static #wrapperInputError = new DevError('Catch can only use functions')
-  static #wrapperArgumentError = new DevError('Catch needs at least 1 argument')
 
   static catch() {
-    if (arguments.length === 0) throw this.#wrapperArgumentError
+    if (arguments.length === 0) throw this.#catchArgumentError
     return arguments.length === 1
-      ? this.#wrapper(arguments[0])
-      : [...arguments].map(input => this.#wrapper(input))
+      ? this.#catch(arguments[0])
+      : [...arguments].map(input => this.#catch(input))
   }
 
-  static #wrapper(input) {
-    if (input instanceof Array) return input.map(fn => this.#wrap(fn))
+  static #catch(input) {
+    if (input instanceof Array) return input.map(fn => this.#wrapper(fn))
     if (input instanceof Object) {
       const newObj = {}
       for (let key in input) {
         const fn = input[key]
-        newObj[key] = this.#wrap(fn)
+        newObj[key] = this.#wrapper(fn)
       }
       return newObj
     }
-    return this.#wrap(fn)
+    return this.#wrapper(fn)
   }
 
-  static #wrap = fn => {
+  static #wrapper = fn => {
     if (!(fn instanceof Function)) throw this.#wrapperInputError
     return (req, res, next) => {
       try {
