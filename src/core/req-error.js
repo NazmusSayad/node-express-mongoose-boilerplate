@@ -13,15 +13,16 @@ module.exports = class ReqError extends Error {
 
   static #catch(input) {
     if (input instanceof Array) return input.map(fn => this.#wrapper(fn))
-    if (input instanceof Object) {
+
+    if (input.toString() === '[object Object]') {
       const newObj = {}
       for (let key in input) {
-        const fn = input[key]
-        newObj[key] = this.#wrapper(fn)
+        newObj[key] = this.#wrapper(input[key])
       }
       return newObj
     }
-    return this.#wrapper(fn)
+
+    return this.#wrapper(input)
   }
 
   static #wrapper = fn => {
@@ -46,7 +47,7 @@ module.exports = class ReqError extends Error {
     if (messageOrArray instanceof Array) {
       message = messageOrArray[0]
       statusCode = statusCodeOrUndefined ?? messageOrArray[1]
-    } else if (messageOrArray instanceof Object) {
+    } else if (messageOrArray.toString() === '[object Object]') {
       message = messageOrArray.message
       statusCode = statusCodeOrUndefined ?? messageOrArray.statusCode
     }
