@@ -8,7 +8,7 @@ const getFail = (message, statusCode) => {
   }
 }
 
-const getSuccess = data => {
+const getSuccess = (data) => {
   return {
     status: 'success',
     data,
@@ -18,13 +18,13 @@ const getSuccess = data => {
 exports.getFail = getFail
 exports.getSuccess = getSuccess
 
-const isResponseInvalid = res => {
+const isResponseInvalid = (res) => {
   if (res.headersSent) {
     return console.warn(colors.red('!!!', 'Headers already sent')), true
   }
 }
 
-const getErrorResponseProd = data => data
+const getErrorResponseProd = (data) => data
 const getErrorResponseDev = (data, err) => ({
   ...data,
   error: err,
@@ -64,11 +64,11 @@ exports.success = function (data, code = 200) {
 
 exports.getBody = function (fields) {
   if (typeof fields === 'string') {
-    fields = fields.split(' ').filter(feild => feild.trim())
+    fields = fields.split(' ').filter((feild) => feild.trim())
   }
 
   const newObj = {}
-  fields.forEach(feild => {
+  fields.forEach((feild) => {
     newObj[feild] = this.body[feild]
   })
   return newObj

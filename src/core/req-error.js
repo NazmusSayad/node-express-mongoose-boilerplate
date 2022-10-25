@@ -8,11 +8,11 @@ module.exports = class ReqError extends Error {
     if (arguments.length === 0) throw this.#catchArgumentError
     return arguments.length === 1
       ? this.#catch(arguments[0])
-      : [...arguments].map(input => this.#catch(input))
+      : [...arguments].map((input) => this.#catch(input))
   }
 
   static #catch(input) {
-    if (input instanceof Array) return input.map(fn => this.#wrapper(fn))
+    if (input instanceof Array) return input.map((fn) => this.#wrapper(fn))
 
     if (input.toString() === '[object Object]') {
       const newObj = {}
@@ -25,7 +25,7 @@ module.exports = class ReqError extends Error {
     return this.#wrapper(input)
   }
 
-  static #wrapper = fn => {
+  static #wrapper = (fn) => {
     if (!(fn instanceof Function)) throw this.#wrapperInputError
     return (req, res, next) => {
       try {

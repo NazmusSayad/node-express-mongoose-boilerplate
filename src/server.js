@@ -1,11 +1,10 @@
-const app = require('./app')
 const colors = require('colors/safe')
+const app = require('./app')
 
-const server = app.listen(process.env.PORT, () => {
-  const [connectedPort] = server._connectionKey.match(/\d+$/)
-  console.log(
-    colors.brightGreen('>>>', `App running on port "${connectedPort}"...`)
-  )
+const port = process.env.PORT ?? 8000
+
+const server = app.listen(port, () => {
+  console.log(colors.brightGreen('>>>', `App running on port "${port}"...`))
 })
 
 module.exports = server

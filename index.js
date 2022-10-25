@@ -1,6 +1,14 @@
-const colors = require('colors/safe')
+;(() => {
+  const paramsArr = process.argv
+    .filter((param) => param.startsWith('--'))
+    .map((param) => param.split('=', 2))
+  const params = Object.fromEntries(paramsArr)
+
+  process.env.NODE_ENV ??= params['--NODE_ENV']
+})()
+
 console.log(
-  colors.reset(
+  require('colors/safe').reset(
     '---',
     new Date().toLocaleString('en-US', {
       dateStyle: 'full',
@@ -10,14 +18,10 @@ console.log(
   )
 )
 
-if (process.argv.at(-1) === '--NODE_ENV=development') {
+if (process.env.NODE_ENV === 'development') {
   console.clear()
-  require('dotenv').config()
-  process.env.NODE_ENV = 'development'
-} else process.env.NODE_ENV ||= 'production'
+}
 
-process.env.PORT ||= 8000
 require('./src/core')
-
 require('./src/database')
 require('./src/server')
