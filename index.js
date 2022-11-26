@@ -1,12 +1,4 @@
-;(() => {
-  const paramsArr = process.argv
-    .filter((param) => param.startsWith('--'))
-    .map((param) => param.split('=', 2))
-  const params = Object.fromEntries(paramsArr)
-
-  process.env.NODE_ENV ??= params['--NODE_ENV']
-})()
-
+require('manual-node-env')
 console.log(
   require('colors/safe').reset(
     '---',

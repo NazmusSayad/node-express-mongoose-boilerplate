@@ -2,21 +2,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node . --NODE_ENV=production",
-    "dev": "node . --NODE_ENV=development --watch",
+    "dev": "node --watch . --NODE_ENV=development",
     "debug": "ndb npm run dev"
   },
   "engines": {
     "node": "*"
   },
   "dependencies": {
-    "cors": "latest",
-    "helmet": "latest",
-    "dotenv": "latest",
     "colors": "latest",
+    "cors": "latest",
+    "dotenv": "latest",
     "express": "latest",
-    "mongoose": "latest",
-    "xss-clean": "latest",
+    "express-mongo-sanitize": "latest",
     "express-rate-limit": "latest",
-    "express-mongo-sanitize": "latest"
+    "helmet": "latest",
+    "manual-node-env": "^1.0.0",
+    "mongoose": "latest",
+    "xss-clean": "latest"
   }
 }

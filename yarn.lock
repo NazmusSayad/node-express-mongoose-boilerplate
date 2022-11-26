@@ -317,6 +317,11 @@ kareem@2.4.1:
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.4.1.tgz#7d81ec518204a48c1cb16554af126806c3cd82b0"
   integrity sha512-aJ9opVoXroQUPfovYP5kaj2lM7Jn02Gw13bL0lg9v0V7SaUc0qavPs0Eue7d2DcC3NjqI6QAUElXNsuZSeM+EA==
 
+manual-node-env@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/manual-node-env/-/manual-node-env-1.0.0.tgz#cc7b020b2414748f349e3b5d67d9d46c7997417d"
+  integrity sha512-L6G1FqAH/8kHSD9oFdO/SAgRZgmbBbVTe1JzFE5hv5VdIMbE1m0TK0LgeH/jjQ8R49rp0eqMDpKS4hIoq+cVhA==
+
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
