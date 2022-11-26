@@ -1,8 +1,8 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "node index.js --NODE_ENV=production",
-    "dev": "node index.js --NODE_ENV=development --watch",
+    "start": "node . --NODE_ENV=production",
+    "dev": "node . --NODE_ENV=development --watch",
     "debug": "ndb npm run dev"
   },
   "engines": {
