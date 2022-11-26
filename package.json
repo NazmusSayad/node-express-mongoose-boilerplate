@@ -1,12 +1,12 @@
 {
   "main": "index.js",
   "scripts": {
-    "start": "node . --NODE_ENV=production",
-    "dev": "nodemon . --NODE_ENV=development",
+    "start": "node index.js --NODE_ENV=production",
+    "dev": "node index.js --NODE_ENV=development --watch",
     "debug": "ndb npm run dev"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "*"
   },
   "dependencies": {
     "cors": "latest",
