@@ -1,4 +1,4 @@
-const colors = require('colors/safe')
+const colors = require('ansi-colors')
 const errorHandler = require('./error-handler')
 
 const getFail = (message, statusCode) => {
@@ -20,7 +20,8 @@ exports.getSuccess = getSuccess
 
 const isResponseInvalid = (res) => {
   if (res.headersSent) {
-    return console.warn(colors.red('!!!', 'Headers already sent')), true
+    console.warn(colors.red('!!!'), colors.red('Headers already sent'))
+    return true
   }
 }
 

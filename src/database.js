@@ -1,18 +1,25 @@
 const mongoose = require('mongoose')
-const colors = require('colors/safe')
+const colors = require('ansi-colors')
 
 const mongoUri = process.env.DB
 
 if (!mongoUri) {
-  console.error(colors.brightRed('!!!', 'MongoDB env variable missing...'))
+  console.error(
+    colors.redBright('!!!'),
+    colors.redBright('MongoDB env variable missing...')
+  )
 } else
   mongoose
     .connect(mongoUri)
     .then(() => {
       console.log(
-        colors.brightGreen('>>>', 'MongoDB connected successfully...')
+        colors.greenBright('>>>'),
+        colors.greenBright('MongoDB connected successfully...')
       )
     })
     .catch(() => {
-      console.error(colors.brightRed('!!!', 'MongoDB connection failed...'))
+      console.error(
+        colors.redBright('!!!'),
+        colors.redBright('MongoDB connection failed...')
+      )
     })

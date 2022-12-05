@@ -1,6 +1,8 @@
 require('manual-node-env')
 require('dotenv').config()
-console.log(require('colors/safe').reset('---', new Date()))
+
+const colors = require('ansi-colors')
+console.log(colors.reset('---'), new Date().toString())
 
 if (process.env.NODE_ENV === 'development') {
   console.clear()

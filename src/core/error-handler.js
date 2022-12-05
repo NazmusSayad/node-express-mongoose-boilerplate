@@ -1,4 +1,4 @@
-const colors = require('colors/safe')
+const colors = require('ansi-colors')
 
 const errorHandler = {
   duplicateError: (err) => {

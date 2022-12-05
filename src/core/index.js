@@ -1,1 +1,1 @@
-global.ReqError = require('./req-error')
+global.ReqError = require('req-error').default

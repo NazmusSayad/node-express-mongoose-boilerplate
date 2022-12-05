@@ -9,15 +9,16 @@
     "node": "*"
   },
   "dependencies": {
-    "colors": "latest",
+    "ansi-colors": "latest",
     "cors": "latest",
     "dotenv": "latest",
     "express": "latest",
     "express-mongo-sanitize": "latest",
     "express-rate-limit": "latest",
     "helmet": "latest",
-    "manual-node-env": "^1.0.0",
+    "manual-node-env": "latest",
     "mongoose": "latest",
+    "req-error": "latest",
     "xss-clean": "latest"
   }
 }
