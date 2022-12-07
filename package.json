@@ -13,6 +13,7 @@
     "cors": "latest",
     "dotenv": "latest",
     "express": "latest",
+    "express-master": "latest",
     "express-mongo-sanitize": "latest",
     "express-rate-limit": "latest",
     "helmet": "latest",

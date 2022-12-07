@@ -1,36 +1,38 @@
 const express = require('express')
+const { default: expressMaster } = require('express-master')
 const cors = require('cors')
 const xss = require('xss-clean')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')
-
-const coreUtils = require('./core/utils')
+const { handleError } = require('req-error')
 const router = require('./router')
+const app = expressMaster()
 
-const app = express()
 const globalLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   max: 1000,
-  message: coreUtils.getFail(
-    'Too many requests from this IP, please try again after a deep sleep',
-    429
-  ),
+  message: {
+    status: 'fail',
+    message:
+      'Too many requests from this IP, please try again after a deep sleep',
+  },
 })
 
+// Safety
 app.use(cors())
 app.use(helmet())
 app.use(globalLimiter)
-app.all('/ping', coreUtils.ping)
+
+// Pasrer
 app.use(express.json({ limit: '8kb' }))
+
+// XXS
 app.use(mongoSanitize())
 app.use(xss())
 
-app.response.success = coreUtils.success
-app.request.getBody = coreUtils.getBody
-
+// Routes
 app.use(router)
-app.use(coreUtils.notFound)
-app.use(coreUtils.errorHandler)
+handleError(app)
 
 module.exports = app
