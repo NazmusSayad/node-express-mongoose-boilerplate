@@ -8,6 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   console.clear()
 }
 
-global.ReqError = require('req-error').default
+require('req-error/global')
 require('./src/database')
 require('./src/server')
