@@ -1,5 +1,6 @@
 {
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node . --NODE_ENV=production",
     "dev": "node --watch . --NODE_ENV=development",
